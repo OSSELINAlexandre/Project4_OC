@@ -204,4 +204,6 @@ public class FareCalculatorServiceTest {
 	assertEquals((20.0 * 24.0 * Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
     }
 
+
+
 }

@@ -130,4 +130,29 @@ public class ParkingDataBaseIT {
 	// the database
     }
 
+    @Test
+    public void ACustomer_shouldGetADiscount_WhenCameTwice() {
+	ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+	Long ended = System.currentTimeMillis() + (1000 * 45 * 60);
+	Long started = System.currentTimeMillis();
+
+	parkingService.processIncomingVehicle(started);
+
+	parkingService.processExitingVehicle(ended);
+
+	Double priceB = ticketDAO.getTicket("ABCDEF").getPrice();
+
+	parkingService.processIncomingVehicle(started + (1000 * 60 * 47));
+
+	parkingService.processExitingVehicle(ended + (1000 * 60 * 47));
+
+	Double priceA = ticketDAO.getTicket("ABCDEF").getPrice();
+
+	System.out.println("Debut : " + priceA + " || End : " + priceB);
+	assertNotEquals(priceB, priceA);
+	assertTrue((priceB * 0.95 == priceA));
+
+    }
+
 }

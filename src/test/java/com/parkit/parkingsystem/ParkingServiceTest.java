@@ -15,9 +15,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,9 +35,6 @@ public class ParkingServiceTest {
     private static ParkingSpotDAO parkingSpotDAO;
     @Mock
     private static TicketDAO ticketDAO;
-    
-    
-    
 
     // Implementing this test in order to increase the coverage of Test Unit.
     // Ca ne marche pas pour une raison simple, tu lui a dit de return false
@@ -45,11 +46,11 @@ public class ParkingServiceTest {
 	when(inputReaderUtil.readSelection()).thenReturn(1);
 	when(parkingSpotDAO.getNextAvailableSlot(any())).thenReturn(1);
 	parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-	
-	//WHEN
+
+	// WHEN
 	parkingService.processIncomingVehicle();
-	
-	//THEN
+
+	// THEN
 	verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
     }
 
