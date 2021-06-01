@@ -78,6 +78,8 @@ public class ParkingDataBaseIT {
 	// with availability
     }
 
+    // A - This test isn't complying to the FIRST principle. This test isn't "independant" because it's success or failure 
+    //is linked to the testParkingACar().
     @Test
     public void testParkingLotExit() {
 	testParkingACar();
