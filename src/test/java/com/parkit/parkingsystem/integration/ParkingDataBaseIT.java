@@ -154,5 +154,8 @@ public class ParkingDataBaseIT {
 	assertTrue((priceB * 0.95 == priceA));
 
     }
+    
+    
+    
 
 }
