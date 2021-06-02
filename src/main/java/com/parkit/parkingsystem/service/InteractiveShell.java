@@ -3,6 +3,9 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,11 +28,13 @@ public class InteractiveShell {
             int option = inputReaderUtil.readSelection();
             switch(option){
                 case 1: {
-                    parkingService.processIncomingVehicle();
+                    Long entryDate = System.currentTimeMillis();
+                    parkingService.processIncomingVehicle(entryDate);
                     break;
                 }
                 case 2: {
-                    parkingService.processExitingVehicle();
+                    Long exitDate = System.currentTimeMillis();
+                    parkingService.processExitingVehicle(exitDate);
                     break;
                 }
                 case 3: {

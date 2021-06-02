@@ -55,7 +55,7 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingACar() {
 	ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-	parkingService.processIncomingVehicle();
+	parkingService.processIncomingVehicle(System.currentTimeMillis());
 
 	int currentSpot = ticketDAO.getTicket("ABCDEF").getParkingSpot().getId();
 	int nextSpot = parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR);
@@ -86,7 +86,7 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingLotExit() {
 	ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-	parkingService.processIncomingVehicle();
+	parkingService.processIncomingVehicle(System.currentTimeMillis());
 
 	// Necessary of a second so that the InTime and the OutTime is different.
 	// Indeed, the code can be too fast for the DB, and the InTime and OutTime can
@@ -101,7 +101,7 @@ public class ParkingDataBaseIT {
 
 	}
 
-	parkingService.processExitingVehicle();
+	parkingService.processExitingVehicle(System.currentTimeMillis());
 
 	// B2 - We first assert that the ticket outTime linked to the registered vehicle
 	// ABCDEF.
@@ -149,13 +149,38 @@ public class ParkingDataBaseIT {
 
 	Double priceA = ticketDAO.getTicket("ABCDEF").getPrice();
 
-	System.out.println("Debut : " + priceA + " || End : " + priceB);
-	assertNotEquals(priceB, priceA);
 	assertTrue((priceB * 0.95 == priceA));
 
     }
-    
-    
-    
+
+    @Test
+    public void ACustomer_shouldGetADiscount_WhenCameThrice() {
+	ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+	Long ended = System.currentTimeMillis() + (1000 * 45 * 60);
+	Long started = System.currentTimeMillis();
+
+	parkingService.processIncomingVehicle(started);
+
+	parkingService.processExitingVehicle(ended);
+
+	Double priceA = ticketDAO.getTicket("ABCDEF").getPrice();
+
+	parkingService.processIncomingVehicle(started + (1000 * 60 * 47));
+
+	parkingService.processExitingVehicle(ended + (1000 * 60 * 47));
+
+	Double priceB = ticketDAO.getTicket("ABCDEF").getPrice();
+
+	parkingService.processIncomingVehicle(started + (1000 * 60 * 47));
+
+	parkingService.processExitingVehicle(ended + (1000 * 60 * 47));
+
+	Double priceC = ticketDAO.getTicket("ABCDEF").getPrice();
+
+	assertTrue((priceA * 0.95 == priceB));
+	assertEquals(priceB, priceC);
+
+    }
 
 }

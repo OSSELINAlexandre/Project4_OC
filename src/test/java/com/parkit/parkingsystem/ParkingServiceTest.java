@@ -48,7 +48,7 @@ public class ParkingServiceTest {
 	parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
 	// WHEN
-	parkingService.processIncomingVehicle();
+	parkingService.processIncomingVehicle(System.currentTimeMillis());
 
 	// THEN
 	verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
@@ -63,7 +63,7 @@ public class ParkingServiceTest {
 	parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
 	// WHEN
-	parkingService.processIncomingVehicle();
+	parkingService.processIncomingVehicle(System.currentTimeMillis());
 
 	// THEN
 	verify(ticketDAO, Mockito.times(0)).saveTicket(any(Ticket.class));
@@ -92,7 +92,7 @@ public class ParkingServiceTest {
 	}
 
 	// WHEN
-	parkingService.processExitingVehicle();
+	parkingService.processExitingVehicle(System.currentTimeMillis());
 
 	// THEN
 	verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
