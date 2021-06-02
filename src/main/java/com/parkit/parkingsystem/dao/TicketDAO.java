@@ -13,11 +13,42 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 
+/**
+ * <b>TicketDAO is the DataAccessObject containing all the needed methods to
+ * access the Ticket Table </b>
+ * <p>
+ * ParkingSpotDAO can get, save and update the Ticket Table
+ * 
+ * @see ParkingSpot
+ * 
+ * @author Alexandre OSSELIN
+ * @version 1.0
+ */
+
 public class TicketDAO {
 
     private static final Logger logger = LogManager.getLogger("TicketDAO");
 
     public DataBaseConfig dataBaseConfig = new DataBaseConfig();
+
+    /**
+     * saveTicket save the ticket in the Database
+     * 
+     * 
+     * <p>
+     * At the end of the process, the database updated the availability of the
+     * parking slot. A ticket with the inTime and registration number of the client
+     * have been created.
+     * </p>
+     * <p>
+     * The method return TRUE if the ticket was approprietly created, and false
+     * otherwise. This method use a Ticket as an arugment and save all the
+     * informations in this given ticket in the Database.
+     * </p>
+     * 
+     * @return boolean
+     * @see TicketDAO
+     */
 
     public boolean saveTicket(Ticket ticket) {
 	Connection con = null;
@@ -40,6 +71,18 @@ public class TicketDAO {
 	}
     }
 
+    /**
+     * getTicket get a ticket in function of the reigistration number of the
+     * customer.
+     * 
+     * 
+     * <p>
+     * The return value of the method is a ticket containing a InTime date and
+     * OutTime date, plus a fare depending on these two durations.
+     * </p>
+     * 
+     * @return Ticket
+     */
     public Ticket getTicket(String vehicleRegNumber) {
 	Connection con = null;
 	Ticket ticket = null;
@@ -69,6 +112,21 @@ public class TicketDAO {
 	}
     }
 
+    /**
+     * updateTicket update the information of a ticket provided in argument of the
+     * method.
+     * 
+     * 
+     * <p>
+     * At the end of the process, the database twin of the ticket provided in
+     * argument has been update in the database.
+     * </p>
+     * 
+     * 
+     * @return boolean
+     * @see ParkingSpotDAO
+     */
+
     public boolean updateTicket(Ticket ticket) {
 	Connection con = null;
 	try {
@@ -86,6 +144,42 @@ public class TicketDAO {
 	}
 	return false;
     }
+
+    /**
+     * <b> checkCustomerProgram check is a customer already has been registered in
+     * the database.</b>
+     * <p>
+     * The method will check, in function of a given vehicleRegistrationNumber if
+     * the customer is faithfull.
+     * </p>
+     * <p>
+     * The second argument of the method is to avoid duplication of code.
+     *
+     * <ul>
+     * <li>Setting FALSE is used at the processIncomingVehicle</li>
+     * <li>Setting TRUE is used at the processOutcomingVehicle</li>
+     * </ul>
+     * 
+     * <P>
+     * When FALSE is set, the method will return TRUE if a ticket exist in the
+     * Database (a former one)
+     * </p>
+     * <P>
+     * When TRUE is set, the method will return TRUE if at least two ticket exist in
+     * the Database (the former and the current one)
+     * </p>
+     * 
+     * <p>
+     * Indeed, when the customer processOutcomingVehicle, a ticket exist in the
+     * Database (the current one), and instead of duplication we use a boolean
+     * </p>
+     * 
+     * At the end of the process, we know if the customer has been faithfull and can
+     * benefit from our customer program.
+     * 
+     * @return boolean
+     * @see ParkingSpotDAO
+     */
 
     public boolean checkCustomerProgram(String vehicleRegNumber, Boolean exit) {
 	Connection con = null;

@@ -11,6 +11,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
+/**
+ * <b>ParkingService is the service class of the whole application.</b>
+ * <p>
+ * Parking Service provide a data treatment. This class provided the method to
+ * process Incoming or Exiting vehicle.
+ * </p>
+ * 
+ * @see parkingService
+ * 
+ * @author Alexandre OSSELIN
+ * @version 1.0
+ */
+
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -26,6 +39,13 @@ public class ParkingService {
 	this.parkingSpotDAO = parkingSpotDAO;
 	this.ticketDAO = ticketDAO;
     }
+
+    /**
+     * getVehichleRegNumber get the registration number of a customer. The method
+     * read the input from the client.
+     * 
+     * @return regNumber
+     */
 
     private String getVehichleRegNumber() throws Exception {
 	System.out.println("Please type the vehicle registration number and press enter key");
@@ -51,6 +71,12 @@ public class ParkingService {
 	return parkingSpot;
     }
 
+    /**
+     * getVehichleType ask the customer his vehicle type.
+     * 
+     * @throws Exception
+     * @return ParkingType
+     */
     private ParkingType getVehichleType() {
 	System.out.println("Please select vehicle type from menu");
 	System.out.println("1 CAR");
@@ -70,6 +96,31 @@ public class ParkingService {
 	}
     }
 
+    /**
+     * <BR>
+     * processIncomingVehicle find a free place for a client, and create a ticket
+     * for him. </BR>
+     * 
+     * <p>
+     * At the end of the process, the database is up to date with the availability
+     * of the Parking.
+     * </P>
+     * <p>
+     * A ticket with inTime and registration number has been created.
+     * </p>
+     * 
+     * <p>
+     * To avoid duplication of code, and for testing purposes, we measure the Date
+     * (current Time of entry) when the customer makes its choices
+     * </p>
+     * <P>
+     * It avoid duplication of code because we can, in the argument, change the
+     * InTime date for testing purpose.
+     * </p>
+     * 
+     * @see TicketDAO
+     * @see ParkingSpotDAO
+     */
     public void processIncomingVehicle(Long started) {
 	try {
 	    ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -102,6 +153,32 @@ public class ParkingService {
 	}
     }
 
+    /**
+     * <BR>
+     * processExitingVehicle process the exit of a customer. It set OutTime date,
+     * and calculate the fare. </BR>
+     * 
+     * <p>
+     * At the end of the process, the database is up to date with the availability
+     * of the Parking.
+     * </P>
+     * <p>
+     * The method also communication with the client all the data related to his
+     * ticket.
+     * </p>
+     * 
+     * <p>
+     * To avoid duplication of code, and for testing purposes, we measure the Date
+     * (current Time of exiting) when the customer makes its choices
+     * </p>
+     * <P>
+     * It avoid duplication of code because we can, in the argument, change the
+     * OutTime date for testing purpose.
+     * </p>
+     * 
+     * @see TicketDAO
+     * @see ParkingSpotDAO
+     */
     public void processExitingVehicle(Long ended) {
 	try {
 	    String vehicleRegNumber = getVehichleRegNumber();

@@ -3,6 +3,23 @@ package com.parkit.parkingsystem.service;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
+/**
+ * <b>FareCalculatorService calculate the price of parking of a client in
+ * function of the inTime, outTime, and vehicleType</b>
+ * <p>
+ * The first 30 minutes (not included) are free. The sport start to being
+ * charged at the 1800 sec to a price of 1800sec * TypeVehiclePrice.
+ * </p>
+ * This class as a single method that take as argument a ticket and set the
+ * price according to the previous formula.
+ * <p>
+ * At the end of the process, a given ticket as a price sat.
+ * </p>
+ * 
+ * @author Alexandre OSSELIN
+ * @version 1.0
+ */
+
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket) {
