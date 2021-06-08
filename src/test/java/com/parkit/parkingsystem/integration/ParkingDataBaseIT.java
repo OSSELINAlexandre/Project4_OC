@@ -69,18 +69,18 @@ public class ParkingDataBaseIT {
 	// available spot in the TEST PARKING db.
 	// Because the currentSport (which is the ID of the parking linked to the Ticket
 	// of registration Number ABCDEF
-	// is different from nextSpot (which is the ID of the ID of the first avaiable
+	// is different from nextSpot (which is the ID of the ID of the first available
 	// parking slot of the type CAR
 	// show that the TEST PARKING db took into account the Ticket.
 
 	assertTrue(ticketDAO.getTicket("ABCDEF").getInTime() != null);
 	assertNotEquals(currentSpot, nextSpot);
-	// TODO: check that a ticket is actualy saved in DB and Parking table is updated
+	// TODO: check that a ticket is actually saved in DB and Parking table is updated
 	// with availability
     }
 
-    // A2 - This test isn't complying to the FIRST principle. This test isn't
-    // "independant" because it's success or failure
+    // A2 - This test isn't complying with the FIRST principle. This test isn't
+    // "independent" because its success or failure
     // is linked to the testParkingACar().
 
     @Test
@@ -88,12 +88,12 @@ public class ParkingDataBaseIT {
 	ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 	parkingService.processIncomingVehicle(System.currentTimeMillis());
 
-	// Necessary of a second so that the InTime and the OutTime is different.
+	// Necessary of a second so that the InTime and the OutTime are different.
 	// Indeed, the code can be too fast for the DB, and the InTime and OutTime can
 	// be the same,
 	// which could lead to error in the FareCalculatorService(). We put a one second
 	// sleep so the times saved
-	// are different
+	// are different.
 
 	try {
 	    Thread.sleep(1000);
@@ -105,9 +105,9 @@ public class ParkingDataBaseIT {
 
 	// B2 - We first assert that the ticket outTime linked to the registered vehicle
 	// ABCDEF.
-	// Indeed, the ticket outime is null when the ticket is created with
+	// Indeed, the ticket ouTime is null when the ticket is created with
 	// processIncomingVehicle. If the Ticket of
-	// ABCDEF has a outTime that isn't null,
+	// ABCDEF has an outTime that isn't null,
 	// Therefore 'the out time are populated correctly in the DB' for at least a
 	// single ticket.
 
@@ -115,12 +115,12 @@ public class ParkingDataBaseIT {
 	// the price.
 	// The second test is therefore used to check is the fareCalculatorService
 	// calculate a ticket price
-	// base on the inTime and outTime, and save that price in the Ticket.
+	// based on the inTime and outTime, and save that price in the Ticket.
 	// Because we put a sleep of one second, the price should be different from 0
 	// (which is
 	// the default value given to a new ticket).
 
-	// Conclusion, if both these test pass, the fare generated and the outtime are
+	// Conclusion, if both these tests pass, the fare generated and the outTime are
 	// populated correctly.
 
 	assertTrue(ticketDAO.getTicket("ABCDEF").getOutTime() != null);

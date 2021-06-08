@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * <b>App is the main class of the application</b>
+ * <b>App is the main class of the application.</b>
  * 
  * @see InteractiveShell
  * 
